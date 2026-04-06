@@ -1,26 +1,64 @@
 @import "tailwindcss";
+html {
+  scroll-padding-top: 96px;
+}
 
+/* Desktop */
+@media (min-width: 768px) {
+  html {
+    scroll-padding-top: 80px;
+  }
+}
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #0f0f14;
+  --foreground: #ffffff;
+  --muted: #9ca3af;
+  --accent-purple: #8b5cf6;
+  --accent-blue: #3b82f6;
+  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-border: rgba(139, 92, 246, 0.15);
+  --glow-purple: rgba(139, 92, 246, 0.25);
+  --glow-blue: rgba(59, 130, 246, 0.2);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  @supports (scroll-behavior: smooth) {
+    scroll-behavior: smooth;
   }
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  min-height: 100vh;
+}
+
+/* Gradient text utility */
+.gradient-text {
+  background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Glass card base */
+.glass-card {
+  background: var(--card-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem;
+  box-shadow: 0 0 40px var(--glow-purple), 0 0 80px var(--glow-blue);
+}
+
+.glass-card:hover {
+  box-shadow: 0 0 50px var(--glow-purple), 0 0 100px var(--glow-blue);
 }
