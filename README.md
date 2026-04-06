@@ -2,6 +2,10 @@
 
 A modern, interactive portfolio website built with Next.js, React, and Tailwind CSS. Showcase your projects, skills, and experience with smooth animations and a responsive design.
 
+## 🌐 Live Demo
+
+[View Live Portfolio](https://garg-sushant-portfolio.vercel.app/)
+
 ## ✨ Features
 
 - **Responsive Design** - Optimized for desktop, tablet, and mobile devices
@@ -134,31 +138,8 @@ portfolio/
 
 ## 🚀 Deployment
 
-### Deploy on Vercel (Recommended)
+This portfolio is deployed and live at [https://garg-sushant-portfolio.vercel.app/](https://garg-sushant-portfolio.vercel.app/) using Vercel.
 
-The easiest way to deploy your portfolio is to use [Vercel](https://vercel.com), created by the Next.js team:
-
-1. Push your repository to GitHub
-2. Visit [vercel.com](https://vercel.com/new)
-3. Connect your GitHub repository
-4. Vercel will automatically detect Next.js and configure the build settings
-5. Click "Deploy"
-
-Your portfolio will be live at a Vercel URL. You can add a custom domain in Vercel dashboard.
-
-### Deploy on Other Platforms
-
-**Netlify:**
-```bash
-npm run build
-# Deploy the `.next` folder
-```
-
-**Docker:**
-```bash
-docker build -t portfolio .
-docker run -p 3000:3000 portfolio
-```
 
 ## 💡 Performance Tips
 
@@ -167,31 +148,9 @@ docker run -p 3000:3000 portfolio
 - **Font Optimization**: Geist fonts are optimized and cached
 - **Build Size**: Production build is optimized with tree-shaking
 
-## 📚 Learn More
-
-- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features
-- [React Documentation](https://react.dev) - React concepts and patterns
-- [Tailwind CSS docs](https://tailwindcss.com/docs) - Styling utilities
-- [Framer Motion docs](https://www.framer.com/motion/) - Animation library
-- [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
-
-## 🤝 Contributing
-
-Contributions are welcome! Feel free to:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 License
-
-This project is open source and available under the [MIT License](LICENSE).
-
 ## 📧 Contact
 
-Have questions or suggestions? Feel free to reach out through the contact section in the portfolio or open an issue in the repository.
+Have questions or suggestions? Feel free to reach out through the contact section in the portfolio.
 
 ---
 
