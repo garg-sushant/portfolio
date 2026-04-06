@@ -1,36 +1,198 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🚀 Portfolio
 
-## Getting Started
+A modern, interactive portfolio website built with Next.js, React, and Tailwind CSS. Showcase your projects, skills, and experience with smooth animations and a responsive design.
 
-First, run the development server:
+## ✨ Features
+
+- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
+- **Smooth Animations** - Engaging transitions and scroll animations powered by Framer Motion
+- **Modern UI** - Clean, glassmorphic design with Tailwind CSS
+- **Multiple Sections**:
+  - Hero section with introduction
+  - Projects showcase with tech stack details
+  - Skills display
+  - Coding profiles (GitHub, LeetCode, etc.)
+  - About section
+  - Contact information
+  - Footer with links
+
+- **Performance Optimized** - Next.js 16, React 19, and optimized font loading
+- **Type Safe** - Full TypeScript support
+- **SEO Ready** - Next.js built-in SEO optimizations
+- **Dark Theme** - Professional dark mode design
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) - React framework with App Router
+- **Language**: [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) - Utility-first CSS framework
+- **Animations**: [Framer Motion 12](https://www.framer.com/motion/) - Production-ready animation library
+- **Icons**: 
+  - [React Icons 5](https://react-icons.github.io/react-icons/) - Popular icon library
+  - [Lucide React](https://lucide.dev/) - Beautiful SVG icons
+- **Fonts**: [Geist](https://vercel.com/font) - System font family
+- **Linting**: [ESLint 9](https://eslint.org/) - Code quality tool
+
+## 📋 Prerequisites
+
+- **Node.js** 18.x or higher
+- **npm** 9.x, **yarn**, **pnpm**, or **bun** package manager
+
+## 🚀 Getting Started
+
+### 1. Clone the Repository
+
+```bash
+git clone <repository-url>
+cd portfolio
+```
+
+### 2. Install Dependencies
+
+```bash
+npm install
+# or
+yarn install
+# or
+pnpm install
+# or
+bun install
+```
+
+### 3. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will start at [http://localhost:3000](http://localhost:3000). Open it in your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 4. Start Editing
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Edit the files in `src/app` and `src/components` to customize your portfolio. The page will hot-reload as you make changes.
 
-## Learn More
+## 📁 Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+portfolio/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout component
+│   │   ├── page.tsx            # Home page
+│   │   └── globals.css         # Global styles
+│   ├── components/
+│   │   ├── Navbar.tsx          # Navigation bar
+│   │   ├── Hero.tsx            # Hero/intro section
+│   │   ├── About.tsx           # About section
+│   │   ├── Skills.tsx          # Skills display
+│   │   ├── Projects.tsx        # Projects showcase
+│   │   ├── CodingProfiles.tsx  # Coding profiles section
+│   │   ├── Contact.tsx         # Contact information
+│   │   ├── Footer.tsx          # Footer component
+│   │   └── SectionWrapper.tsx  # Reusable section wrapper
+│   └── data/
+│       └── projects.ts         # Projects data
+├── public/                      # Static assets
+├── package.json                 # Dependencies
+├── tsconfig.json                # TypeScript configuration
+├── next.config.ts               # Next.js configuration
+├── tailwind.config.mjs           # Tailwind CSS configuration
+├── postcss.config.mjs            # PostCSS configuration
+├── eslint.config.mjs             # ESLint configuration
+└── README.md                    # This file
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📚 Available Scripts
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Start development server at http://localhost:3000 |
+| `npm run build` | Create optimized production build |
+| `npm run start` | Start production server |
+| `npm run lint` | Run ESLint to check code quality |
 
-## Deploy on Vercel
+## 🎨 Customization
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Update Your Information
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. **Main Content**: Edit `src/app/page.tsx` to modify the main page structure
+2. **Projects**: Update `src/data/projects.ts` to add/modify your projects
+3. **Sections**: Customize each component in `src/components/`:
+   - `Hero.tsx` - Update your introduction and social links
+   - `About.tsx` - Add your bio and background
+   - `Skills.tsx` - List your technical skills
+   - `Projects.tsx` - Showcase your work
+   - `CodingProfiles.tsx` - Link to your coding profiles
+   - `Contact.tsx` - Update contact information
+
+### Styling
+
+- **Colors & Theme**: Modify Tailwind classes in components
+- **Animations**: Adjust Framer Motion variants in component files
+- **Fonts**: Configure in `src/app/layout.tsx`
+- **Tailwind Config**: Edit `tailwind.config.mjs` for custom configurations
+
+## 🚀 Deployment
+
+### Deploy on Vercel (Recommended)
+
+The easiest way to deploy your portfolio is to use [Vercel](https://vercel.com), created by the Next.js team:
+
+1. Push your repository to GitHub
+2. Visit [vercel.com](https://vercel.com/new)
+3. Connect your GitHub repository
+4. Vercel will automatically detect Next.js and configure the build settings
+5. Click "Deploy"
+
+Your portfolio will be live at a Vercel URL. You can add a custom domain in Vercel dashboard.
+
+### Deploy on Other Platforms
+
+**Netlify:**
+```bash
+npm run build
+# Deploy the `.next` folder
+```
+
+**Docker:**
+```bash
+docker build -t portfolio .
+docker run -p 3000:3000 portfolio
+```
+
+## 💡 Performance Tips
+
+- **Images**: Use Next.js Image component for automatic optimization
+- **Code Splitting**: Next.js automatically splits code by route
+- **Font Optimization**: Geist fonts are optimized and cached
+- **Build Size**: Production build is optimized with tree-shaking
+
+## 📚 Learn More
+
+- [Next.js Documentation](https://nextjs.org/docs) - Learn about Next.js features
+- [React Documentation](https://react.dev) - React concepts and patterns
+- [Tailwind CSS docs](https://tailwindcss.com/docs) - Styling utilities
+- [Framer Motion docs](https://www.framer.com/motion/) - Animation library
+- [TypeScript Handbook](https://www.typescriptlang.org/docs/) - TypeScript guide
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to:
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is open source and available under the [MIT License](LICENSE).
+
+## 📧 Contact
+
+Have questions or suggestions? Feel free to reach out through the contact section in the portfolio or open an issue in the repository.
+
+---
+
+**Made with ❤️ using Next.js and React**
