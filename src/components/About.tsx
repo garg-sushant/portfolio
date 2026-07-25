@@ -10,9 +10,9 @@ export default function About() {
           About
         </h2>
         <p className="mx-auto mt-6 max-w-2xl text-center text-base leading-relaxed text-gray-400 sm:text-lg">
-          I&apos;m Sushant Garg ,a Computer Science undergraduate at Punjab Engineering College, Chandigarh, and a passionate full-stack developer who cares deeply about performance, accessibility, and clean, scalable code. I enjoy building products that users genuinely love — taking ideas from concept to deployment with a focus on efficiency and thoughtful design.
+          I&apos;m Sushant Garg, a Computer Science undergraduate at Punjab Engineering College, Chandigarh, and a passionate full-stack developer with a growing focus on AI-powered applications. I enjoy building scalable, user-centric products that combine clean design, high performance, and thoughtful engineering—from concept to deployment.
 
-          With a strong foundation in Data Structures and Algorithms, I constantly sharpen my problem-solving skills and strive to approach challenges from multiple perspectives. I’m deeply interested in the intersection of technology, business, and innovation, and I’m always exploring new tools, frameworks, and ideas to expand my capabilities. I believe in continuous learning, meaningful collaboration, and building solutions that are both creative and impactful.
+          Alongside full-stack development, I&apos;ve been working with modern AI technologies, including Large Language Models (LLMs), Retrieval-Augmented Generation (RAG), vector databases, and agentic AI workflows to build intelligent, real-world applications. With a strong foundation in Data Structures and Algorithms, I constantly sharpen my problem-solving skills and enjoy tackling complex challenges from multiple perspectives. I&apos;m deeply interested in the intersection of software engineering, artificial intelligence, and innovation, and I&apos;m always exploring new technologies to create impactful solutions while continuously learning and growing as a developer.
         </p>
       </div>
     </SectionWrapper>

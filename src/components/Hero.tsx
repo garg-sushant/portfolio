@@ -101,9 +101,11 @@ export default function Hero() {
           {/* LEFT */}
           <div className="flex-1 text-center md:text-left">
             <p className="text-gray-400 text-base sm:text-lg leading-relaxed">
-              I build scalable and modern web applications using React,
-              Next.js, and TypeScript. Passionate about creating fast,
-              responsive, and visually polished digital experiences.
+              I develop scalable full-stack applications and AI-powered solutions using
+              React, Next.js, TypeScript, FastAPI, and modern technologies. My
+              interests include Large Language Models (LLMs), Retrieval-Augmented
+              Generation (RAG), and agentic AI, with a focus on building intelligent,
+              performant, and user-centric products.
             </p>
           </div>
 
