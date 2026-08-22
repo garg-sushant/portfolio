@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { RESUME_URL } from "@/data/resume";
 
 const dynamicWords = [
   "Open Source",

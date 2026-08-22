@@ -1,6 +1,6 @@
 "use client";
 
-import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaWhatsapp } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -13,6 +13,20 @@ export default function Footer() {
 
         {/* Social Icons */}
         <div className="mb-6 flex justify-center gap-4">
+          <a
+            href="https://wa.me/918847005306"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="WhatsApp Contact"
+            className="flex h-11 w-11 items-center justify-center
+                       rounded-xl border border-blue-500/20
+                       bg-blue-500/5 text-slate-300
+                       transition-all duration-200
+                       hover:scale-105 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-300"
+          >
+            <FaWhatsapp size={18} />
+          </a>
+
           <a
             href="https://github.com/garg-sushant"
             target="_blank"

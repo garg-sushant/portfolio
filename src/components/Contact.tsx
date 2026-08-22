@@ -1,375 +1,108 @@
 "use client";
 
-import { useState, useRef, useMemo } from "react";
 import SectionWrapper from "./SectionWrapper";
-import { Mail, ArrowUpRight, Check, Paperclip, X, Loader2, AlertCircle, ShieldCheck } from "lucide-react";
-import { FaLinkedin, FaGithub } from "react-icons/fa";
+import { Mail, ArrowUpRight } from "lucide-react";
+import { FaLinkedin, FaGithub, FaWhatsapp } from "react-icons/fa";
 
-const contactLinks = [
+const contactCards = [
   {
     id: "email",
-    label: "Email",
+    title: "Email Me",
+    label: "Send via Outlook / Mail Client",
     value: "sgarg9031@gmail.com",
     href: "mailto:sgarg9031@gmail.com",
-    icon: <Mail size={20} className="text-emerald-400" />,
+    icon: <Mail size={24} className="text-emerald-400" />,
+    badge: "Direct Email",
+    gradient: "hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]",
+  },
+  {
+    id: "whatsapp",
+    title: "WhatsApp & Call",
+    label: "Direct Chat & Quick Inquiries",
+    value: "+91 8847005306",
+    href: "https://wa.me/918847005306",
+    icon: <FaWhatsapp size={24} className="text-emerald-400" />,
+    badge: "Instant Chat",
+    gradient: "hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]",
   },
   {
     id: "linkedin",
-    label: "LinkedIn",
-    value: "in/sushant-garg-4b0a37284",
+    title: "LinkedIn",
+    label: "Professional Profile & Network",
+    value: "linkedin.com/in/sushant-garg",
     href: "https://www.linkedin.com/in/sushant-garg-4b0a37284/",
-    icon: <FaLinkedin size={20} className="text-blue-400" />,
+    icon: <FaLinkedin size={24} className="text-blue-400" />,
+    badge: "Connect",
+    gradient: "hover:border-blue-400/50 hover:shadow-[0_0_30px_rgba(59,130,246,0.15)]",
   },
   {
     id: "github",
-    label: "GitHub",
+    title: "GitHub",
+    label: "Open Source Code & Repositories",
     value: "github.com/garg-sushant",
     href: "https://github.com/garg-sushant",
-    icon: <FaGithub size={20} className="text-emerald-400" />,
+    icon: <FaGithub size={24} className="text-emerald-400" />,
+    badge: "Repositories",
+    gradient: "hover:border-emerald-400/50 hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]",
   },
 ];
 
-const EMAIL_REGEX =
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
 
 export default function Contact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-    botField: "",
-  });
-  const [attachment, setAttachment] = useState<File | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [errorMsg, setErrorMsg] = useState<string | null>(null);
-
-  const fileInputRef = useRef<HTMLInputElement>(null);
-
-  // Real-time email validation
-  const emailValidation = useMemo(() => {
-    if (!formData.email) return null;
-    const isValid = EMAIL_REGEX.test(formData.email);
-    return isValid;
-  }, [formData.email]);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      const file = e.target.files[0];
-      if (file.size > 10 * 1024 * 1024) {
-        setErrorMsg("Attachment size must be under 10MB.");
-        return;
-      }
-      setErrorMsg(null);
-      setAttachment(file);
-    }
-  };
-
-  const removeAttachment = () => {
-    setAttachment(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = "";
-    }
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!formData.name.trim()) {
-      setErrorMsg("Please enter your name.");
-      return;
-    }
-
-    if (!emailValidation) {
-      setErrorMsg("Please enter a valid, authentic email address.");
-      return;
-    }
-
-    if (!formData.message.trim() || formData.message.trim().length < 5) {
-      setErrorMsg("Please write a message with at least 5 characters.");
-      return;
-    }
-
-    setIsSubmitting(true);
-    setErrorMsg(null);
-
-    try {
-      const payload = new FormData();
-      payload.append("name", formData.name.trim());
-      payload.append("email", formData.email.trim());
-      payload.append("message", formData.message.trim());
-      payload.append("_gotcha", formData.botField);
-      if (attachment) {
-        payload.append("file", attachment);
-      }
-
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        body: payload,
-      });
-
-      const data = await res.json();
-
-      if (!res.ok && data.error) {
-        throw new Error(data.error);
-      }
-
-      setSubmitted(true);
-      setFormData({ name: "", email: "", message: "", botField: "" });
-      setAttachment(null);
-      if (fileInputRef.current) fileInputRef.current.value = "";
-
-      setTimeout(() => {
-        setSubmitted(false);
-      }, 7000);
-    } catch (err: unknown) {
-      const errorMessage =
-        err instanceof Error
-          ? err.message
-          : "Failed to send message. Please try again.";
-      setErrorMsg(errorMessage);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
   return (
     <SectionWrapper id="contact">
       <div className="text-center mb-12">
         <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
-          Get in Touch
+          Let&apos;s Connect & Build
         </h2>
         <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-          Send a direct message with optional attachments. Delivered straight to{" "}
-          <span className="text-emerald-300 font-medium">sgarg9031@gmail.com</span>.
+          Reach out directly via email, check my resume, or connect across professional platforms.
         </p>
       </div>
 
-      <div className="mx-auto max-w-5xl grid gap-6 lg:grid-cols-12 items-start">
-
-        {/* LEFT COLUMN: DIRECT IN-PAGE CONTACT FORM */}
-        <div className="glass-card rounded-2xl p-6 sm:p-8 lg:col-span-7 border border-blue-500/20 bg-[#071524]/90 shadow-xl">
-          <form onSubmit={handleSubmit} className="space-y-4">
-
-            {/* HONEYPOT SPAM TRAP (HIDDEN) */}
-            <input
-              type="text"
-              name="_gotcha"
-              value={formData.botField}
-              onChange={(e) => setFormData({ ...formData, botField: e.target.value })}
-              className="hidden"
-              tabIndex={-1}
-              autoComplete="off"
-            />
-
-            {/* NAME INPUT */}
+      <div className="mx-auto max-w-4xl grid gap-5 sm:grid-cols-2">
+        {contactCards.map((card) => (
+          <a
+            key={card.id}
+            href={card.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={`group glass-card flex flex-col justify-between rounded-2xl border border-blue-500/20 bg-[#071524]/90 p-6 sm:p-7 transition-all duration-200 hover:-translate-y-1 ${card.gradient}`}
+          >
             <div>
-              <label
-                htmlFor="name"
-                className="block font-mono text-xs font-semibold text-emerald-400 mb-2"
-              >
-                name
-              </label>
-              <input
-                id="name"
-                type="text"
-                required
-                value={formData.name}
-                onChange={(e) =>
-                  setFormData({ ...formData, name: e.target.value })
-                }
-                placeholder="Your full name"
-                className="w-full rounded-xl border border-blue-500/20 bg-[#040c16] px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
-              />
+              <div className="flex items-center justify-between">
+                <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] transition-transform duration-200 group-hover:scale-110">
+                  {card.icon}
+                </div>
+                <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs font-medium text-slate-300">
+                  {card.badge}
+                </span>
+              </div>
+
+              <h3 className="mt-5 text-lg font-bold text-white group-hover:text-emerald-300 transition-colors">
+                {card.title}
+              </h3>
+              <p className="mt-1 text-xs text-slate-400">
+                {card.label}
+              </p>
             </div>
 
-            {/* EMAIL INPUT WITH LIVE AUTHENTICATION FEEDBACK */}
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label
-                  htmlFor="email"
-                  className="block font-mono text-xs font-semibold text-emerald-400"
-                >
-                  email (verified for authenticity)
-                </label>
-                {formData.email && (
-                  <span
-                    className={`flex items-center gap-1 text-[11px] font-medium ${
-                      emailValidation ? "text-emerald-400" : "text-amber-400"
-                    }`}
-                  >
-                    {emailValidation ? (
-                      <>
-                        <ShieldCheck size={13} />
-                        <span>Valid format</span>
-                      </>
-                    ) : (
-                      <span>Enter valid email</span>
-                    )}
-                  </span>
-                )}
-              </div>
-              <input
-                id="email"
-                type="email"
-                required
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                placeholder="you@example.com"
-                className={`w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:outline-none focus:ring-1 ${
-                  formData.email && !emailValidation
-                    ? "border-amber-500/50 bg-[#040c16] focus:border-amber-400 focus:ring-amber-400/30"
-                    : "border-blue-500/20 bg-[#040c16] focus:border-blue-400 focus:ring-blue-400/30"
-                }`}
-              />
-            </div>
-
-            {/* MESSAGE INPUT */}
-            <div>
-              <label
-                htmlFor="message"
-                className="block font-mono text-xs font-semibold text-emerald-400 mb-2"
-              >
-                message
-              </label>
-              <textarea
-                id="message"
-                rows={4}
-                required
-                value={formData.message}
-                onChange={(e) =>
-                  setFormData({ ...formData, message: e.target.value })
-                }
-                placeholder="What would you like to discuss?"
-                className="w-full resize-none rounded-xl border border-blue-500/20 bg-[#040c16] px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
-              />
-            </div>
-
-            {/* ATTACHMENT SECTION */}
-            <div>
-              <div className="flex items-center justify-between mb-1.5">
-                <label className="block font-mono text-xs font-semibold text-blue-400">
-                  attachment (optional)
-                </label>
-                <span className="text-[11px] text-slate-500">PDF, DOCX, ZIP, PNG, JPG (up to 10MB)</span>
-              </div>
-
-              {!attachment ? (
-                <div
-                  onClick={() => fileInputRef.current?.click()}
-                  className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-blue-500/30 bg-[#040c16]/70 px-4 py-3 text-xs text-slate-300 transition-all duration-150 hover:border-emerald-400/50 hover:bg-blue-500/5 hover:text-white"
-                >
-                  <Paperclip size={15} className="text-emerald-400" />
-                  <span>Click to attach a file</span>
-                </div>
-              ) : (
-                <div className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs text-emerald-200">
-                  <div className="flex items-center gap-2 truncate max-w-[85%]">
-                    <Paperclip size={14} className="text-emerald-400 shrink-0" />
-                    <span className="truncate font-medium">{attachment.name}</span>
-                    <span className="text-[11px] text-emerald-400/80">
-                      ({Math.round(attachment.size / 1024)} KB)
-                    </span>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={removeAttachment}
-                    className="p-1 text-slate-400 hover:text-white transition-colors"
-                    aria-label="Remove attachment"
-                  >
-                    <X size={14} />
-                  </button>
-                </div>
-              )}
-
-              <input
-                ref={fileInputRef}
-                type="file"
-                onChange={handleFileChange}
-                className="hidden"
-                accept=".pdf,.doc,.docx,.txt,.zip,.png,.jpg,.jpeg"
-              />
-            </div>
-
-            {/* ERROR ALERT */}
-            {errorMsg && (
-              <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300">
-                <AlertCircle size={15} className="shrink-0 text-red-400" />
-                <span>{errorMsg}</span>
-              </div>
-            )}
-
-            {/* SUCCESS ALERT */}
-            {submitted && (
-              <div className="flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-3 text-xs font-medium text-emerald-200">
-                <Check size={16} className="shrink-0 text-emerald-400" />
-                <span>Your message has been delivered to sgarg9031@gmail.com!</span>
-              </div>
-            )}
-
-            {/* SUBMIT BUTTON */}
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
-            >
-              {isSubmitting ? (
-                <>
-                  <Loader2 size={18} className="animate-spin text-white" />
-                  <span>Verifying & Sending message...</span>
-                </>
-              ) : submitted ? (
-                <>
-                  <Check size={18} />
-                  <span>Delivered to sgarg9031@gmail.com!</span>
-                </>
-              ) : (
-                <>
-                  <span>Send message</span>
-                  <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
-                </>
-              )}
-            </button>
-
-          </form>
-        </div>
-
-        {/* RIGHT COLUMN: CONTACT CHANNELS */}
-        <div className="flex flex-col gap-3.5 lg:col-span-5">
-          {contactLinks.map((item) => (
-            <a
-              key={item.id}
-              href={item.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group glass-card flex items-center justify-between rounded-2xl border border-blue-500/20 bg-[#071524]/90 p-5 transition-all duration-200 hover:border-emerald-400/40 hover:bg-emerald-500/5"
-            >
-              <div className="flex items-center gap-4">
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-blue-500/30 bg-blue-500/10 text-white transition-transform duration-200 group-hover:scale-105">
-                  {item.icon}
-                </div>
-                <div>
-                  <p className="font-mono text-xs font-semibold text-blue-400">{item.label}</p>
-                  <p className="mt-0.5 text-sm sm:text-base font-semibold text-white group-hover:text-emerald-300 transition-colors">
-                    {item.value}
-                  </p>
-                </div>
-              </div>
-
+            <div className="mt-6 flex items-center justify-between border-t border-white/[0.08] pt-4">
+              <span className="text-xs sm:text-sm font-semibold text-slate-200 group-hover:text-white transition-colors truncate max-w-[80%]">
+                {card.value}
+              </span>
               <ArrowUpRight
                 size={18}
-                className="text-slate-500 transition-all duration-150 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                className="text-slate-400 transition-all duration-200 group-hover:text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
               />
-            </a>
-          ))}
-        </div>
-
+            </div>
+          </a>
+        ))}
       </div>
     </SectionWrapper>
   );
 }
+
 
 
 
