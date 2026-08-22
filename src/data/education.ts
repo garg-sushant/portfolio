@@ -28,7 +28,7 @@ export const educationData: EducationItem[] = [
     degree: "Higher Secondary Education (12th)",
     field: "Non-Medical (Physics, Chemistry, Mathematics)",
     duration: "Completed",
-    location: "Chandigarh, India",
+    location: "Sector 35D Chandigarh, India",
     details: [
       "Specialized in Science & Mathematics with strong academic excellence.",
     ],
