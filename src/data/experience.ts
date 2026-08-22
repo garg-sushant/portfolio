@@ -19,7 +19,7 @@ export const experiences: ExperienceItem[] = [
     location: "Gurgaon, India",
     locationType: "On-site",
     points: [
-      "Engineered an AI-powered BFSI dispute investigation platform using LangGraph-based multi-agent workflows to automate dispute intake, evidence analysis, and adjudication.",
+      "Engineered an AI-powered BFSI transaction dispute investigation platform using LangGraph-based multi-agent workflows to automate dispute intake, evidence analysis, and adjudication.",
       "Developed LLM- and RAG-powered pipelines with MCP integration to classify disputes, validate supporting evidence, and generate explainable investigation reports, reducing manual review effort by ~40%.",
       "Built scalable backend services using FastAPI, PostgreSQL, and Redis for workflow orchestration, improving dispute processing time by ~35% and enhancing system responsiveness.",
       "Collaborated with cross-functional teams to deliver production-ready AI solutions, increasing investigation consistency and reducing turnaround time for complex dispute cases by ~30%."

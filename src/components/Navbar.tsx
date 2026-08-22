@@ -1,56 +1,83 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 
 const navLinks = [
   { href: "#hero", label: "Home" },
+  { href: "#education", label: "Education" },
   { href: "#about", label: "About" },
   { href: "#experience", label: "Experience" },
   { href: "#skills", label: "Skills" },
   { href: "#projects", label: "Projects" },
+  { href: "#coding", label: "Profiles" },
   { href: "#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [pendingScrollTarget, setPendingScrollTarget] =
-    useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState("#hero");
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200;
+      const sectionIds = navLinks.map((link) => link.href.substring(1));
+
+      for (let i = sectionIds.length - 1; i >= 0; i--) {
+        const section = document.getElementById(sectionIds[i]);
+        if (section && section.offsetTop <= scrollPosition) {
+          setActiveSection(`#${sectionIds[i]}`);
+          break;
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <motion.header
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="sticky top-0 z-50 border-b border-white/5 bg-[#0f0f14]/80 backdrop-blur-xl"
+      className="fixed top-0 left-0 right-0 z-50 w-full border-b border-blue-500/15 bg-[#060d17]/85 backdrop-blur-2xl transition-all duration-300"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <a
           href="#hero"
-          className="text-lg font-semibold bg-linear-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent"
+          className="text-lg font-bold bg-gradient-to-r from-emerald-400 to-blue-400 bg-clip-text text-transparent tracking-tight hover:opacity-90 transition-opacity"
         >
           Sushant Garg
         </a>
 
-        {/* Desktop Links */}
-        <div className="hidden items-center gap-8 md:flex">
-          {navLinks.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              className="text-sm font-medium text-gray-400 transition-colors hover:text-white"
-            >
-              {link.label}
-            </a>
-          ))}
+        {/* Desktop Links with Active Section Highlight */}
+        <div className="hidden items-center gap-2 lg:gap-3 md:flex">
+          {navLinks.map((link) => {
+            const isActive = activeSection === link.href;
+            return (
+              <a
+                key={link.href}
+                href={link.href}
+                className={`relative px-3 py-1.5 text-xs lg:text-sm font-medium rounded-lg transition-all duration-200 ${
+                  isActive
+                    ? "bg-gradient-to-r from-emerald-500/15 to-blue-500/15 text-emerald-300 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] font-semibold"
+                    : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                }`}
+              >
+                {link.label}
+              </a>
+            );
+          })}
 
           <a
-            href="/resume.pdf"
+            href="/Resume.pdf"
             target="_blank"
             rel="noopener noreferrer"
-            className="rounded-xl bg-linear-to-r from-purple-600 to-blue-600 px-4 py-2 text-sm font-medium text-white transition-all hover:scale-105 hover:shadow-lg hover:shadow-purple-500/30"
+            className="ml-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-4 py-2 text-xs font-bold text-white transition-all duration-200 hover:brightness-110 hover:scale-105 shadow-md shadow-emerald-500/20"
           >
             Resume
           </a>
@@ -60,76 +87,51 @@ export default function Navbar() {
         <button
           type="button"
           onClick={() => setIsOpen(!isOpen)}
-          className="text-white md:hidden"
+          className="p-1 text-emerald-400 hover:text-emerald-300 md:hidden"
+          aria-label="Toggle Navigation Menu"
         >
           {isOpen ? <X size={26} /> : <Menu size={26} />}
         </button>
       </nav>
 
       {/* Mobile Dropdown */}
-      <AnimatePresence
-        onExitComplete={() => {
-          if (pendingScrollTarget) {
-            const target = pendingScrollTarget;
-            setPendingScrollTarget(null);
-            // Wait for layout/paint to settle after dropdown removal
-            requestAnimationFrame(() => {
-              requestAnimationFrame(() => {
-                const section = document.querySelector(target);
-                if (!section) return;
-                const isMobile = window.innerWidth < 768;
-                const headerOffset = 80; // sticky header height
-                if (isMobile) {
-                  // Manual offset on mobile to avoid dynamic toolbar + scroll-padding issues
-                  const top = Math.max(
-                    0,
-                    section.getBoundingClientRect().top +
-                      window.scrollY -
-                      headerOffset
-                  );
-                  window.scrollTo({ top, behavior: "auto" });
-                } else {
-                  section.scrollIntoView({
-                    behavior: "smooth",
-                    block: "start",
-                  });
-                }
-              });
-            });
-          }
-        }}
-      >
+      <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
             transition={{
               duration: 0.25,
               ease: "easeOut",
             }}
-            className="border-t border-white/5 bg-[#0f0f14]/95 md:hidden"
+            className="border-t border-blue-500/15 bg-[#060d17]/95 backdrop-blur-2xl md:hidden overflow-hidden"
           >
-            <div className="flex flex-col gap-6 px-6 py-6">
-              {navLinks.map((link) => (
-                <button
-                  key={link.href}
-                  onClick={() => {
-                    setPendingScrollTarget(link.href);
-                    setIsOpen(false);
-                  }}
-                  className="text-left text-sm font-medium text-gray-400 transition-colors hover:text-white"
-                >
-                  {link.label}
-                </button>
-              ))}
+            <div className="flex flex-col gap-3 px-6 py-6">
+              {navLinks.map((link) => {
+                const isActive = activeSection === link.href;
+                return (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className={`text-left px-3 py-2 rounded-lg text-base font-medium transition-all ${
+                      isActive
+                        ? "bg-gradient-to-r from-emerald-500/15 to-blue-500/15 text-emerald-300 border border-emerald-500/30 font-semibold"
+                        : "text-slate-300 hover:text-white"
+                    }`}
+                  >
+                    {link.label}
+                  </a>
+                );
+              })}
 
               <a
-                href="/resume.pdf"
+                href="/Resume.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
-                className="rounded-xl bg-linear-to-r from-purple-600 to-blue-600 px-4 py-2 text-sm font-medium text-white text-center"
+                className="mt-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white text-center shadow-md shadow-emerald-500/20"
               >
                 Resume
               </a>
@@ -138,5 +140,6 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+
   );
 }

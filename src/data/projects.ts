@@ -5,14 +5,15 @@ export interface Project {
   techStack: string[];
   githubUrl: string;
   liveUrl?: string;
+  image: string;
 }
 
 export const projects: Project[] = [
   {
     id: "1",
-    title: "AI Dispute Investigation System",
+    title: "AI Transaction Dispute Investigation System",
     description:
-      "An enterprise-grade BFSI dispute investigation platform that streamlines dispute intake, evidence validation, workflow orchestration, and customer communication using an AI-driven multi-agent architecture.",
+      "An enterprise-grade BFSI transaction dispute investigation platform that streamlines dispute intake, evidence validation, workflow orchestration, and customer communication using an AI-driven multi-agent architecture.",
     techStack: [
       "Next.js",
       "TypeScript",
@@ -28,6 +29,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/garg-sushant/ai-dispute-investigation-system",
     liveUrl: "https://ai-dispute-investigation-system.vercel.app/",
+    image: "/projects/ai-dispute.png",
   },
   {
     id: "2",
@@ -48,6 +50,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/garg-sushant/CampusBridge",
     liveUrl: "https://campus-bridge-black.vercel.app",
+    image: "/projects/campus-bridge.png",
   },
   {
     id: "3",
@@ -64,6 +67,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/garg-sushant/TimeComplexityAI",
     liveUrl: "https://timecomplexityai.vercel.app/",
+    image: "/projects/time-complexity.png",
   },
   {
     id: "4",
@@ -81,6 +85,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/garg-sushant/mystudyapp",
     liveUrl: "https://garg-sushant-mystudyapp.vercel.app",
+    image: "/projects/study-planner.png",
   },
   {
     id: "5",
@@ -98,5 +103,7 @@ export const projects: Project[] = [
     ],
     githubUrl: "https://github.com/garg-sushant/queue-ease",
     liveUrl: "https://queue-ease-mu.vercel.app",
+    image: "/projects/queue-ease.png",
   },
 ];
+

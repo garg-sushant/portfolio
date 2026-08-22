@@ -1,12 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
-import Image from "next/image";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
+const dynamicWords = [
+  "Open Source",
+  "Web Dev",
+  "DevOps",
+  "AI Agents",
+];
 
 const socialLinks = [
   {
     href: "https://github.com/garg-sushant",
-    label: "Github",
+    label: "GitHub",
     icon: (
       <svg
         className="h-5 w-5"
@@ -64,114 +71,218 @@ const socialLinks = [
 ];
 
 export default function Hero() {
+  const [wordIndex, setWordIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setWordIndex((prev) => (prev + 1) % dynamicWords.length);
+    }, 2200);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <section
       id="hero"
-      className="flex min-h-screen items-center justify-center px-4 py-24 scroll-mt-24"
+      className="flex min-h-[88vh] items-center justify-center py-16 sm:py-24"
     >
-      <div className="mx-auto w-full max-w-6xl px-6 lg:px-12 xl:px-20">
+      <div className="mx-auto w-full max-w-6xl">
+        <div className="grid items-center gap-12 lg:grid-cols-12">
 
-        {/* NAME */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-center text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
-        >
-          Sushant Garg
-        </motion.h1>
+          {/* LEFT COLUMN: HERO DETAILS */}
+          <div className="text-center lg:text-left lg:col-span-7">
 
-        {/* ROLE */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="mt-4 text-center text-xl font-medium sm:text-2xl bg-linear-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent"
-        >
-          Full Stack Developer
-        </motion.p>
-
-        {/* SPLIT SECTION */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.3 }}
-          className="mt-12 flex flex-col items-center gap-10 md:flex-row md:gap-16"
-        >
-          {/* LEFT */}
-          <div className="flex-1 text-center md:text-left">
-            <p className="text-gray-400 text-base sm:text-lg leading-relaxed">
-              I develop scalable full-stack applications and AI-powered solutions using
-              React, Next.js, TypeScript, FastAPI, and modern technologies. My
-              interests include Large Language Models (LLMs), Retrieval-Augmented
-              Generation (RAG), and agentic AI, with a focus on building intelligent,
-              performant, and user-centric products.
-            </p>
-          </div>
-
-          {/* RIGHT IMAGE */}
-          <div className="flex flex-1 justify-center md:justify-end">
-            <div className="overflow-hidden rounded-full border border-white/10 shadow-[0_0_80px_rgba(139,92,246,0.45)]">
-              <Image
-                src="/picture.jpeg"
-                alt="Sushant Garg"
-                width={200}
-                height={200}
-                priority
-                className="object-cover"
-              />
-            </div>
-          </div>
-        </motion.div>
-
-        {/* BUTTONS */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 flex flex-wrap items-center justify-center gap-4"
-        >
-          <a
-            href="#projects"
-            className="rounded-xl bg-linear-to-r from-purple-600 to-blue-600 px-6 py-3 text-sm font-medium text-white shadow-lg shadow-purple-500/30 transition-all hover:scale-105"
-          >
-            View Projects
-          </a>
-
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rounded-xl border border-white/20 bg-white/5 px-6 py-3 text-sm font-medium text-white backdrop-blur-sm transition-all hover:border-purple-500/50 hover:bg-white/10"
-          >
-            Download Resume
-          </a>
-        </motion.div>
-
-        {/* SOCIAL */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7 }}
-          className="mt-12 flex items-center justify-center gap-6"
-        >
-          {socialLinks.map((link) => (
-            <a
-              key={link.label}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex h-12 w-12 items-center justify-center
-                         rounded-full border border-white/10
-                         bg-white/5 text-gray-400
-                         transition-all duration-300
-                         hover:scale-110 hover:border-purple-500/40 hover:text-purple-400"
+            {/* DYNAMIC WORDS STATUS BADGE */}
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-4 py-1.5 text-xs sm:text-sm font-medium text-emerald-300 backdrop-blur-md shadow-[0_0_20px_rgba(16,185,129,0.12)]"
             >
-              {link.icon}
-            </a>
-          ))}
-        </motion.div>
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500"></span>
+              </span>
 
+              <span className="text-slate-300">Passionate about</span>
+
+              <div className="relative inline-block h-5 min-w-[95px] overflow-hidden text-left font-semibold">
+                <AnimatePresence mode="wait">
+                  <motion.span
+                    key={dynamicWords[wordIndex]}
+                    initial={{ y: 16, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: -16, opacity: 0 }}
+                    transition={{ duration: 0.35, ease: "easeOut" }}
+                    className="absolute inset-0 bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-400 bg-clip-text text-transparent font-bold"
+                  >
+                    {dynamicWords[wordIndex]}
+                  </motion.span>
+                </AnimatePresence>
+              </div>
+            </motion.div>
+
+            {/* NAME */}
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="text-4xl font-bold tracking-tight text-white sm:text-5xl md:text-6xl"
+            >
+              Sushant Garg
+            </motion.h1>
+
+            {/* ROLE */}
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.15 }}
+              className="mt-3 text-xl font-semibold sm:text-2xl bg-gradient-to-r from-emerald-400 via-teal-300 to-blue-400 bg-clip-text text-transparent"
+            >
+              Full Stack Developer & AI Engineer
+            </motion.p>
+
+            {/* INTRO BIO */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="mt-6 space-y-3.5 max-w-xl text-sm leading-relaxed text-slate-300 sm:text-base font-normal"
+            >
+              <p>
+                Computer Science undergraduate at{" "}
+                <span className="font-semibold text-white">Punjab Engineering College (PEC)</span> specializing in building scalable full-stack applications and production-ready AI systems.
+              </p>
+              <p>
+                Core engineering with{" "}
+                <span className="text-blue-300 font-medium">Next.js</span>,{" "}
+                <span className="text-emerald-300 font-medium">TypeScript</span>, and{" "}
+                <span className="text-teal-300 font-medium">FastAPI</span>, with hands-on expertise in{" "}
+                <span className="text-emerald-300 font-medium">Agentic AI workflows</span>,{" "}
+                <span className="text-blue-300 font-medium">LangGraph</span>, and{" "}
+                <span className="text-cyan-300 font-medium">LLMs & RAG</span>.
+              </p>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Driven by continuous problem solving across competitive programming platforms and hands-on industrial internship experience.
+              </p>
+            </motion.div>
+
+            {/* ACTION BUTTONS */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.45 }}
+              className="mt-8 flex flex-wrap items-center justify-center lg:justify-start gap-4"
+            >
+              <a
+                href="#projects"
+                className="group relative inline-flex items-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-6 py-3 text-sm sm:text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:brightness-110 hover:scale-105"
+              >
+                <span>Explore Projects</span>
+                <svg
+                  className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+
+              <a
+                href="/Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-6 py-3 text-sm sm:text-base font-semibold text-blue-200 backdrop-blur-md transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-400 hover:scale-105"
+              >
+                <svg className="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+                <span>Download Resume</span>
+              </a>
+            </motion.div>
+
+            {/* SOCIAL LINKS */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+              className="mt-8 flex items-center justify-center lg:justify-start gap-4"
+            >
+              {socialLinks.map((link) => (
+                <a
+                  key={link.label}
+                  href={link.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={link.label}
+                  className="flex h-10 w-10 items-center justify-center rounded-xl border border-blue-500/20 bg-blue-500/5 text-slate-300 transition-all duration-200 hover:scale-110 hover:border-blue-400/50 hover:bg-blue-500/15 hover:text-blue-300 shadow-sm"
+                >
+                  {link.icon}
+                </a>
+              ))}
+            </motion.div>
+
+          </div>
+
+          {/* RIGHT COLUMN: WHOAMI TERMINAL CARD (SEA GREEN & BLUE PALETTE) */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="w-full lg:col-span-5 flex justify-center lg:justify-end"
+          >
+            <div className="w-full max-w-lg rounded-2xl border border-blue-500/25 bg-[#071524]/95 shadow-2xl backdrop-blur-xl transition-all duration-200 hover:border-blue-400/40 hover:shadow-[0_0_35px_rgba(59,130,246,0.18)]">
+
+              {/* Window Header */}
+              <div className="flex items-center justify-between border-b border-white/[0.08] bg-white/[0.02] px-4 py-3">
+                <div className="flex items-center gap-2">
+                  <div className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+                  <div className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                  <div className="h-3 w-3 rounded-full bg-[#27c93f]" />
+                </div>
+                <div className="font-mono text-xs text-blue-400/80 tracking-wide">
+                  sushant — whoami
+                </div>
+                <div className="w-8" />
+              </div>
+
+              {/* Terminal Body */}
+              <div className="p-6 font-mono text-xs sm:text-sm text-slate-300 leading-relaxed overflow-x-auto">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-emerald-400 font-semibold">sushant@portfolio:~$</span>
+                  <span className="text-slate-100">whoami</span>
+                </div>
+
+                <div className="space-y-1.5 text-slate-300">
+                  <p className="text-blue-400/60">&#123;</p>
+                  <p className="pl-4">
+                    <span className="text-blue-300">name</span>: <span className="text-emerald-300">&quot;Sushant Garg&quot;</span>,
+                  </p>
+                  <p className="pl-4">
+                    <span className="text-blue-300">role</span>: <span className="text-emerald-300">&quot;Full Stack & AI Engineer&quot;</span>,
+                  </p>
+                  <p className="pl-4">
+                    <span className="text-blue-300">focus</span>: [<span className="text-cyan-300">&quot;full-stack&quot;</span>, <span className="text-cyan-300">&quot;AI agents&quot;</span>, <span className="text-cyan-300">&quot;LLMs & RAG&quot;</span>],
+                  </p>
+                  <p className="pl-4">
+                    <span className="text-blue-300">likes</span>: [<span className="text-cyan-300">&quot;open source&quot;</span>, <span className="text-cyan-300">&quot;problem solving&quot;</span>],
+                  </p>
+                  <p className="pl-4">
+                    <span className="text-blue-300">edu</span>:   <span className="text-emerald-300">&quot;CSE @ PEC, &apos;27&quot;</span>
+                  </p>
+                  <p className="text-blue-400/60">&#125;</p>
+                </div>
+
+                <div className="mt-5 flex items-center gap-2">
+                  <span className="text-emerald-400 font-semibold">sushant@portfolio:~$</span>
+                  <span className="inline-block h-4 w-2.5 bg-emerald-400 animate-pulse align-middle" />
+                </div>
+              </div>
+
+            </div>
+          </motion.div>
+
+        </div>
       </div>
     </section>
   );

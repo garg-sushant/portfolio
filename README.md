@@ -1,53 +1,76 @@
-# 🚀 Portfolio
+# 🚀 Sushant Garg - Developer Portfolio
 
-A modern, interactive portfolio website built with Next.js, React, and Tailwind CSS. Showcase your projects, skills, and experience with smooth animations and a responsive design.
+A high-performance, modern developer portfolio website built with **Next.js 16**, **React 19**, **TypeScript**, and **Tailwind CSS 4**. Features dynamic interactive components, a macOS-style terminal card, authentic live project screenshots, an education & experience timeline, and a vibrant **Sea Green & Electric Blue** theme.
 
 ## 🌐 Live Demo
 
 [View Live Portfolio](https://garg-sushant-portfolio.vercel.app/)
 
-## ✨ Features
+## ✨ Key Features
 
-- **Responsive Design** - Optimized for desktop, tablet, and mobile devices
-- **Smooth Animations** - Engaging transitions and scroll animations powered by Framer Motion
-- **Modern UI** - Clean, glassmorphic design with Tailwind CSS
-- **Multiple Sections**:
-  - Hero section with introduction
-  - Projects showcase with tech stack details
-  - Skills display
-  - Coding profiles (GitHub, LeetCode, etc.)
-  - About section
-  - Contact information
-  - Footer with links
-
-- **Performance Optimized** - Next.js 16, React 19, and optimized font loading
-- **Type Safe** - Full TypeScript support
-- **SEO Ready** - Next.js built-in SEO optimizations
-- **Dark Theme** - Professional dark mode design
+- **Responsive & Modern Design** - Clean, frosted glassmorphic UI optimized for desktop, tablet, and mobile devices.
+- **Sea Green & Electric Blue Aesthetic** - Tailored dual-gradient palette with glowing ambient lighting and dark oceanic foundation.
+- **Scrollspy Navigation** - Fixed floating navbar that automatically highlights the active section in real time.
+- **Interactive Developer Terminal** - macOS-styled interactive `whoami` terminal with dynamic prompt and syntax highlighting.
+- **Comprehensive Timeline & Profile**:
+  - **Hero Section**: Dynamic rotating skill badges, bio, and direct action CTAs.
+  - **Education**: Detailed academic background (PEC Chandigarh B.Tech CSE, 12th Senior Secondary, 10th Secondary).
+  - **About Me**: Engineering philosophy, core pillars, and specialization areas.
+  - **Work Experience**: Industrial internship experience and production achievements.
+  - **Skills Matrix**: Categorized technical skills across Frontend, Backend, AI/ML, DevOps, and Core CS.
+  - **Featured Projects**: Uniform grid with authentic live window mockups, uncropped screenshots, and direct Live Demo / GitHub links.
+  - **Coding Profiles**: LeetCode, CodeChef, GeeksforGeeks, and GitHub statistics cards.
+  - **Interactive Contact**: Pre-filled email client form and direct social channels.
 
 ## 🛠️ Tech Stack
 
-- **Framework**: [Next.js 16](https://nextjs.org/) - React framework with App Router
+- **Framework**: [Next.js 16 (Turbopack)](https://nextjs.org/) - React framework with App Router
 - **Language**: [TypeScript](https://www.typescriptlang.org/) - Type-safe JavaScript
-- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) - Utility-first CSS framework
-- **Animations**: [Framer Motion 12](https://www.framer.com/motion/) - Production-ready animation library
-- **Icons**: 
-  - [React Icons 5](https://react-icons.github.io/react-icons/) - Popular icon library
-  - [Lucide React](https://lucide.dev/) - Beautiful SVG icons
-- **Fonts**: [Geist](https://vercel.com/font) - System font family
-- **Linting**: [ESLint 9](https://eslint.org/) - Code quality tool
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/) - Modern utility-first styling with custom CSS variables
+- **Animations**: [Framer Motion](https://www.framer.com/motion/) - Smooth scroll reveals, transitions, and text rotations
+- **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+- **Deployment**: [Vercel](https://vercel.com/)
 
-## 📋 Prerequisites
+## 📁 Project Structure
 
-- **Node.js** 18.x or higher
-- **npm** 9.x, **yarn**, **pnpm**, or **bun** package manager
+```
+portfolio/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx          # Root layout with fonts & metadata
+│   │   ├── page.tsx            # Home page composition & ambient lighting
+│   │   └── globals.css         # Sea Green & Blue design system tokens
+│   ├── components/
+│   │   ├── Navbar.tsx          # Fixed floating navbar with scrollspy
+│   │   ├── Hero.tsx            # Hero intro & macOS whoami terminal
+│   │   ├── Education.tsx       # Academic timeline (PEC, 12th, 10th)
+│   │   ├── About.tsx           # Bio & core engineering pillars
+│   │   ├── Experience.tsx      # Work experience & internship details
+│   │   ├── Skills.tsx          # Categorized technical skill pills
+│   │   ├── Projects.tsx        # Equal-sized project cards with live previews
+│   │   ├── CodingProfiles.tsx  # Competitive programming & GitHub links
+│   │   ├── Contact.tsx         # Direct message form & channels
+│   │   ├── Footer.tsx          # Footer component with socials
+│   │   └── SectionWrapper.tsx  # Reusable animated section wrapper
+│   └── data/
+│       ├── education.ts        # Education records data
+│       ├── experience.ts       # Experience and internship data
+│       └── projects.ts         # Project metadata and screenshots
+├── public/
+│   ├── projects/               # Authentic live project preview screenshots
+│   └── Resume.pdf              # Downloadable resume
+├── package.json
+├── tsconfig.json
+├── next.config.ts
+└── README.md
+```
 
 ## 🚀 Getting Started
 
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/garg-sushant/portfolio.git
 cd portfolio
 ```
 
@@ -55,12 +78,6 @@ cd portfolio
 
 ```bash
 npm install
-# or
-yarn install
-# or
-pnpm install
-# or
-bun install
 ```
 
 ### 3. Run Development Server
@@ -69,89 +86,18 @@ bun install
 npm run dev
 ```
 
-The application will start at [http://localhost:3000](http://localhost:3000). Open it in your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-### 4. Start Editing
+### 4. Build for Production
 
-Edit the files in `src/app` and `src/components` to customize your portfolio. The page will hot-reload as you make changes.
-
-## 📁 Project Structure
-
-```
-portfolio/
-├── src/
-│   ├── app/
-│   │   ├── layout.tsx          # Root layout component
-│   │   ├── page.tsx            # Home page
-│   │   └── globals.css         # Global styles
-│   ├── components/
-│   │   ├── Navbar.tsx          # Navigation bar
-│   │   ├── Hero.tsx            # Hero/intro section
-│   │   ├── About.tsx           # About section
-│   │   ├── Skills.tsx          # Skills display
-│   │   ├── Projects.tsx        # Projects showcase
-│   │   ├── CodingProfiles.tsx  # Coding profiles section
-│   │   ├── Contact.tsx         # Contact information
-│   │   ├── Footer.tsx          # Footer component
-│   │   └── SectionWrapper.tsx  # Reusable section wrapper
-│   └── data/
-│       └── projects.ts         # Projects data
-├── public/                      # Static assets
-├── package.json                 # Dependencies
-├── tsconfig.json                # TypeScript configuration
-├── next.config.ts               # Next.js configuration
-├── tailwind.config.mjs           # Tailwind CSS configuration
-├── postcss.config.mjs            # PostCSS configuration
-├── eslint.config.mjs             # ESLint configuration
-└── README.md                    # This file
+```bash
+npm run build
+npm run start
 ```
 
-## 📚 Available Scripts
+## 📧 Contact & Links
 
-| Command | Description |
-|---------|-------------|
-| `npm run dev` | Start development server at http://localhost:3000 |
-| `npm run build` | Create optimized production build |
-| `npm run start` | Start production server |
-| `npm run lint` | Run ESLint to check code quality |
+- **Email**: [sgarg9031@gmail.com](mailto:sgarg9031@gmail.com)
+- **LinkedIn**: [linkedin.com/in/sushant-garg-4b0a37284](https://www.linkedin.com/in/sushant-garg-4b0a37284/)
+- **GitHub**: [github.com/garg-sushant](https://github.com/garg-sushant)
 
-## 🎨 Customization
-
-### Update Your Information
-
-1. **Main Content**: Edit `src/app/page.tsx` to modify the main page structure
-2. **Projects**: Update `src/data/projects.ts` to add/modify your projects
-3. **Sections**: Customize each component in `src/components/`:
-   - `Hero.tsx` - Update your introduction and social links
-   - `About.tsx` - Add your bio and background
-   - `Skills.tsx` - List your technical skills
-   - `Projects.tsx` - Showcase your work
-   - `CodingProfiles.tsx` - Link to your coding profiles
-   - `Contact.tsx` - Update contact information
-
-### Styling
-
-- **Colors & Theme**: Modify Tailwind classes in components
-- **Animations**: Adjust Framer Motion variants in component files
-- **Fonts**: Configure in `src/app/layout.tsx`
-- **Tailwind Config**: Edit `tailwind.config.mjs` for custom configurations
-
-## 🚀 Deployment
-
-This portfolio is deployed and live at [https://garg-sushant-portfolio.vercel.app/](https://garg-sushant-portfolio.vercel.app/) using Vercel.
-
-
-## 💡 Performance Tips
-
-- **Images**: Use Next.js Image component for automatic optimization
-- **Code Splitting**: Next.js automatically splits code by route
-- **Font Optimization**: Geist fonts are optimized and cached
-- **Build Size**: Production build is optimized with tree-shaking
-
-## 📧 Contact
-
-Have questions or suggestions? Feel free to reach out through the contact section in the portfolio.
-
----
-
-**Made with ❤️ using Next.js and React**

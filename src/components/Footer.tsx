@@ -4,25 +4,25 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 export default function Footer() {
   return (
-    <footer className="relative mt-24 border-t border-white/10 bg-[#0f0f14] py-10 ">
+    <footer className="relative mt-24 border-t border-blue-500/15 bg-[#060d17] py-12">
 
-      {/* Top Gradient Line */}
-      <div className="absolute top-0 left-0 h-px w-full bg-linear-to-r from-purple-500 via-blue-500 to-purple-500 opacity-40"></div>
+      {/* Top Subtle Line */}
+      <div className="absolute top-0 left-0 h-px w-full bg-gradient-to-r from-transparent via-blue-500/30 to-transparent"></div>
 
       <div className="mx-auto max-w-6xl px-6 text-center">
 
         {/* Social Icons */}
-        <div className="mb-6 flex justify-center gap-6">
+        <div className="mb-6 flex justify-center gap-4">
           <a
             href="https://github.com/garg-sushant"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub Profile"
-            className="flex h-10 w-10 items-center justify-center
-                       rounded-full border border-white/10
-                       bg-white/5 text-gray-400
-                       transition-all duration-300
-                       hover:scale-110 hover:border-purple-500/40 hover:text-purple-500"
+            className="flex h-11 w-11 items-center justify-center
+                       rounded-xl border border-blue-500/20
+                       bg-blue-500/5 text-slate-300
+                       transition-all duration-200
+                       hover:scale-105 hover:border-emerald-400/50 hover:bg-emerald-500/15 hover:text-emerald-300"
           >
             <FaGithub size={18} />
           </a>
@@ -31,24 +31,24 @@ export default function Footer() {
             href="https://www.linkedin.com/in/sushant-garg-4b0a37284/"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Linkedin Profile"
-            className="flex h-10 w-10 items-center justify-center
-                       rounded-full border border-white/10
-                       bg-white/5 text-gray-400
-                       transition-all duration-300
-                       hover:scale-110 hover:border-purple-500/40 hover:text-purple-500"
+            aria-label="LinkedIn Profile"
+            className="flex h-11 w-11 items-center justify-center
+                       rounded-xl border border-blue-500/20
+                       bg-blue-500/5 text-slate-300
+                       transition-all duration-200
+                       hover:scale-105 hover:border-blue-400/50 hover:bg-blue-500/15 hover:text-blue-300"
           >
             <FaLinkedin size={18} />
           </a>
         </div>
 
         {/* Text */}
-        <p className="text-sm text-gray-400">
-          © {new Date().getFullYear()} Sushant Garg
+        <p className="text-sm text-slate-300 font-medium">
+          © {new Date().getFullYear()} Sushant Garg. All rights reserved.
         </p>
 
-        <p className="mt-2 text-sm text-gray-500">
-          Designed & Built with Next.js ,& Tailwind CSS
+        <p className="mt-1.5 text-xs text-slate-500">
+          Built with Next.js, React, TypeScript & Tailwind CSS
         </p>
 
       </div>
