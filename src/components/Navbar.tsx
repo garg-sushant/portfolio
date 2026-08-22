@@ -20,16 +20,24 @@ export default function Navbar() {
   const [activeSection, setActiveSection] = useState("#hero");
 
   useEffect(() => {
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY + 200;
-      const sectionIds = navLinks.map((link) => link.href.substring(1));
+    let ticking = false;
 
-      for (let i = sectionIds.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sectionIds[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(`#${sectionIds[i]}`);
-          break;
-        }
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const scrollPosition = window.scrollY + 180;
+          const sectionIds = navLinks.map((link) => link.href.substring(1));
+
+          for (let i = sectionIds.length - 1; i >= 0; i--) {
+            const section = document.getElementById(sectionIds[i]);
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(`#${sectionIds[i]}`);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
@@ -43,7 +51,7 @@ export default function Navbar() {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="fixed top-0 left-0 right-0 z-50 w-full border-b border-blue-500/15 bg-[#060d17]/85 backdrop-blur-2xl transition-all duration-300"
+      className="fixed top-0 left-0 right-0 z-50 w-full border-b border-blue-500/15 bg-[#060d17]/85 backdrop-blur-2xl transition-colors duration-300"
     >
       <nav className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         {/* Logo */}
@@ -54,21 +62,28 @@ export default function Navbar() {
           Sushant Garg
         </a>
 
-        {/* Desktop Links with Active Section Highlight */}
-        <div className="hidden items-center gap-2 lg:gap-3 md:flex">
+        {/* Desktop Links with Smooth Sliding Active Tab Indicator */}
+        <div className="hidden items-center gap-1.5 lg:gap-2 md:flex">
           {navLinks.map((link) => {
             const isActive = activeSection === link.href;
             return (
               <a
                 key={link.href}
                 href={link.href}
-                className={`relative px-3 py-1.5 text-xs lg:text-sm font-medium rounded-lg transition-all duration-200 ${
+                className={`relative px-3 py-1.5 text-xs lg:text-sm font-medium rounded-lg transition-colors duration-150 ${
                   isActive
-                    ? "bg-gradient-to-r from-emerald-500/15 to-blue-500/15 text-emerald-300 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] font-semibold"
-                    : "text-slate-300 hover:text-white hover:bg-white/[0.04]"
+                    ? "text-emerald-300"
+                    : "text-slate-300 hover:text-white"
                 }`}
               >
-                {link.label}
+                {isActive && (
+                  <motion.span
+                    layoutId="activeNavTab"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    className="absolute inset-0 rounded-lg bg-gradient-to-r from-emerald-500/15 to-blue-500/15 border border-emerald-500/30 shadow-[0_0_15px_rgba(16,185,129,0.15)] -z-10"
+                  />
+                )}
+                <span className="relative z-10">{link.label}</span>
               </a>
             );
           })}
@@ -117,7 +132,7 @@ export default function Navbar() {
                     onClick={() => setIsOpen(false)}
                     className={`text-left px-3 py-2 rounded-lg text-base font-medium transition-all ${
                       isActive
-                        ? "bg-gradient-to-r from-emerald-500/15 to-blue-500/15 text-emerald-300 border border-emerald-500/30 font-semibold"
+                        ? "bg-gradient-to-r from-emerald-500/15 to-blue-500/15 text-emerald-300 border border-emerald-500/30"
                         : "text-slate-300 hover:text-white"
                     }`}
                   >
@@ -140,6 +155,7 @@ export default function Navbar() {
         )}
       </AnimatePresence>
     </motion.header>
+
 
   );
 }
