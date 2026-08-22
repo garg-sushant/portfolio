@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import SectionWrapper from "./SectionWrapper";
-import { Mail, ArrowUpRight, Check } from "lucide-react";
+import { Mail, ArrowUpRight, Check, Paperclip, X, Loader2, AlertCircle } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const contactLinks = [
@@ -35,18 +35,75 @@ export default function Contact() {
     email: "",
     message: "",
   });
+  const [attachment, setAttachment] = useState<File | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      // Max 10MB limit
+      if (file.size > 10 * 1024 * 1024) {
+        setErrorMsg("File size must be under 10MB.");
+        return;
+      }
+      setErrorMsg(null);
+      setAttachment(file);
+    }
+  };
+
+  const removeAttachment = () => {
+    setAttachment(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const mailtoUrl = `mailto:sgarg9031@gmail.com?subject=${encodeURIComponent(
-      `Portfolio Inquiry from ${formData.name || "Visitor"}`
-    )}&body=${encodeURIComponent(
-      `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
-    )}`;
-    window.open(mailtoUrl, "_blank");
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setIsSubmitting(true);
+    setErrorMsg(null);
+
+    try {
+      const payload = new FormData();
+      payload.append("name", formData.name);
+      payload.append("email", formData.email);
+      payload.append("message", formData.message);
+      if (attachment) {
+        payload.append("file", attachment);
+      }
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        body: payload,
+      });
+
+      const data = await res.json();
+
+      if (!res.ok && data.error) {
+        throw new Error(data.error);
+      }
+
+      setSubmitted(true);
+      setFormData({ name: "", email: "", message: "" });
+      setAttachment(null);
+      if (fileInputRef.current) fileInputRef.current.value = "";
+
+      setTimeout(() => {
+        setSubmitted(false);
+      }, 6000);
+    } catch (err: unknown) {
+      const errorMessage =
+        err instanceof Error
+          ? err.message
+          : "Failed to send message. Please try again.";
+      setErrorMsg(errorMessage);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -56,13 +113,14 @@ export default function Contact() {
           Get in Touch
         </h2>
         <p className="mt-3 text-sm sm:text-base text-slate-400 max-w-xl mx-auto">
-          Have a question, opportunity, or collaboration in mind? Send a direct message or connect on socials.
+          Send a direct message with optional attachments. Delivered straight to{" "}
+          <span className="text-emerald-300 font-medium">sgarg9031@gmail.com</span>.
         </p>
       </div>
 
       <div className="mx-auto max-w-5xl grid gap-6 lg:grid-cols-12 items-start">
 
-        {/* LEFT COLUMN: CONTACT FORM */}
+        {/* LEFT COLUMN: DIRECT IN-PAGE CONTACT FORM */}
         <div className="glass-card rounded-2xl p-6 sm:p-8 lg:col-span-7 border border-blue-500/20 bg-[#071524]/90 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-4">
 
@@ -129,15 +187,83 @@ export default function Contact() {
               />
             </div>
 
-            {/* SUBMIT BUTTON (SEA GREEN & BLUE GRADIENT) */}
+            {/* ATTACHMENT SECTION */}
+            <div>
+              <div className="flex items-center justify-between mb-1.5">
+                <label className="block font-mono text-xs font-semibold text-blue-400">
+                  attachment (optional)
+                </label>
+                <span className="text-[11px] text-slate-500">PDF, DOCX, ZIP, PNG, JPG (up to 10MB)</span>
+              </div>
+
+              {!attachment ? (
+                <div
+                  onClick={() => fileInputRef.current?.click()}
+                  className="flex cursor-pointer items-center justify-center gap-2 rounded-xl border border-dashed border-blue-500/30 bg-[#040c16]/70 px-4 py-3 text-xs text-slate-300 transition-all duration-150 hover:border-emerald-400/50 hover:bg-blue-500/5 hover:text-white"
+                >
+                  <Paperclip size={15} className="text-emerald-400" />
+                  <span>Click to attach a file</span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-between rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs text-emerald-200">
+                  <div className="flex items-center gap-2 truncate max-w-[85%]">
+                    <Paperclip size={14} className="text-emerald-400 shrink-0" />
+                    <span className="truncate font-medium">{attachment.name}</span>
+                    <span className="text-[11px] text-emerald-400/80">
+                      ({Math.round(attachment.size / 1024)} KB)
+                    </span>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={removeAttachment}
+                    className="p-1 text-slate-400 hover:text-white transition-colors"
+                    aria-label="Remove attachment"
+                  >
+                    <X size={14} />
+                  </button>
+                </div>
+              )}
+
+              <input
+                ref={fileInputRef}
+                type="file"
+                onChange={handleFileChange}
+                className="hidden"
+                accept=".pdf,.doc,.docx,.txt,.zip,.png,.jpg,.jpeg"
+              />
+            </div>
+
+            {/* ERROR ALERT */}
+            {errorMsg && (
+              <div className="flex items-center gap-2 rounded-xl border border-red-500/30 bg-red-500/10 p-3 text-xs text-red-300">
+                <AlertCircle size={15} className="shrink-0 text-red-400" />
+                <span>{errorMsg}</span>
+              </div>
+            )}
+
+            {/* SUCCESS ALERT */}
+            {submitted && (
+              <div className="flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-3 text-xs font-medium text-emerald-200">
+                <Check size={16} className="shrink-0 text-emerald-400" />
+                <span>Message sent directly to sgarg9031@gmail.com!</span>
+              </div>
+            )}
+
+            {/* SUBMIT BUTTON */}
             <button
               type="submit"
-              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] active:scale-[0.99]"
+              disabled={isSubmitting}
+              className="group flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-6 py-3.5 text-sm sm:text-base font-bold text-white shadow-lg shadow-emerald-500/20 transition-all duration-200 hover:brightness-110 hover:scale-[1.01] active:scale-[0.99] disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {submitted ? (
+              {isSubmitting ? (
+                <>
+                  <Loader2 size={18} className="animate-spin text-white" />
+                  <span>Sending message...</span>
+                </>
+              ) : submitted ? (
                 <>
                   <Check size={18} />
-                  <span>Opening email client...</span>
+                  <span>Sent successfully!</span>
                 </>
               ) : (
                 <>
@@ -184,6 +310,7 @@ export default function Contact() {
     </SectionWrapper>
   );
 }
+
 
 
 

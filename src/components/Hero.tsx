@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { RESUME_URL } from "@/data/resume";
 
 const dynamicWords = [
   "Open Source",
@@ -190,8 +191,7 @@ export default function Hero() {
 
               <a
                 href="/Resume.pdf"
-                target="_blank"
-                rel="noopener noreferrer"
+                download="Sushant_Garg_Resume.pdf"
                 className="inline-flex items-center gap-2 rounded-xl border border-blue-500/30 bg-blue-500/10 px-6 py-3 text-sm sm:text-base font-semibold text-blue-200 backdrop-blur-md transition-all duration-200 hover:bg-blue-500/20 hover:border-blue-400 hover:scale-105"
               >
                 <svg className="h-4 w-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
