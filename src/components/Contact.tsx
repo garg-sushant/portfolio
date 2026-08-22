@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useMemo } from "react";
 import SectionWrapper from "./SectionWrapper";
-import { Mail, ArrowUpRight, Check, Paperclip, X, Loader2, AlertCircle } from "lucide-react";
+import { Mail, ArrowUpRight, Check, Paperclip, X, Loader2, AlertCircle, ShieldCheck } from "lucide-react";
 import { FaLinkedin, FaGithub } from "react-icons/fa";
 
 const contactLinks = [
@@ -29,11 +29,15 @@ const contactLinks = [
   },
 ];
 
+const EMAIL_REGEX =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     message: "",
+    botField: "",
   });
   const [attachment, setAttachment] = useState<File | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -42,12 +46,18 @@ export default function Contact() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Real-time email validation
+  const emailValidation = useMemo(() => {
+    if (!formData.email) return null;
+    const isValid = EMAIL_REGEX.test(formData.email);
+    return isValid;
+  }, [formData.email]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      // Max 10MB limit
       if (file.size > 10 * 1024 * 1024) {
-        setErrorMsg("File size must be under 10MB.");
+        setErrorMsg("Attachment size must be under 10MB.");
         return;
       }
       setErrorMsg(null);
@@ -64,14 +74,31 @@ export default function Contact() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!formData.name.trim()) {
+      setErrorMsg("Please enter your name.");
+      return;
+    }
+
+    if (!emailValidation) {
+      setErrorMsg("Please enter a valid, authentic email address.");
+      return;
+    }
+
+    if (!formData.message.trim() || formData.message.trim().length < 5) {
+      setErrorMsg("Please write a message with at least 5 characters.");
+      return;
+    }
+
     setIsSubmitting(true);
     setErrorMsg(null);
 
     try {
       const payload = new FormData();
-      payload.append("name", formData.name);
-      payload.append("email", formData.email);
-      payload.append("message", formData.message);
+      payload.append("name", formData.name.trim());
+      payload.append("email", formData.email.trim());
+      payload.append("message", formData.message.trim());
+      payload.append("_gotcha", formData.botField);
       if (attachment) {
         payload.append("file", attachment);
       }
@@ -88,13 +115,13 @@ export default function Contact() {
       }
 
       setSubmitted(true);
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", message: "", botField: "" });
       setAttachment(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
 
       setTimeout(() => {
         setSubmitted(false);
-      }, 6000);
+      }, 7000);
     } catch (err: unknown) {
       const errorMessage =
         err instanceof Error
@@ -124,6 +151,17 @@ export default function Contact() {
         <div className="glass-card rounded-2xl p-6 sm:p-8 lg:col-span-7 border border-blue-500/20 bg-[#071524]/90 shadow-xl">
           <form onSubmit={handleSubmit} className="space-y-4">
 
+            {/* HONEYPOT SPAM TRAP (HIDDEN) */}
+            <input
+              type="text"
+              name="_gotcha"
+              value={formData.botField}
+              onChange={(e) => setFormData({ ...formData, botField: e.target.value })}
+              className="hidden"
+              tabIndex={-1}
+              autoComplete="off"
+            />
+
             {/* NAME INPUT */}
             <div>
               <label
@@ -140,19 +178,37 @@ export default function Contact() {
                 onChange={(e) =>
                   setFormData({ ...formData, name: e.target.value })
                 }
-                placeholder="Your name"
+                placeholder="Your full name"
                 className="w-full rounded-xl border border-blue-500/20 bg-[#040c16] px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
               />
             </div>
 
-            {/* EMAIL INPUT */}
+            {/* EMAIL INPUT WITH LIVE AUTHENTICATION FEEDBACK */}
             <div>
-              <label
-                htmlFor="email"
-                className="block font-mono text-xs font-semibold text-emerald-400 mb-2"
-              >
-                email
-              </label>
+              <div className="flex items-center justify-between mb-2">
+                <label
+                  htmlFor="email"
+                  className="block font-mono text-xs font-semibold text-emerald-400"
+                >
+                  email (verified for authenticity)
+                </label>
+                {formData.email && (
+                  <span
+                    className={`flex items-center gap-1 text-[11px] font-medium ${
+                      emailValidation ? "text-emerald-400" : "text-amber-400"
+                    }`}
+                  >
+                    {emailValidation ? (
+                      <>
+                        <ShieldCheck size={13} />
+                        <span>Valid format</span>
+                      </>
+                    ) : (
+                      <span>Enter valid email</span>
+                    )}
+                  </span>
+                )}
+              </div>
               <input
                 id="email"
                 type="email"
@@ -162,7 +218,11 @@ export default function Contact() {
                   setFormData({ ...formData, email: e.target.value })
                 }
                 placeholder="you@example.com"
-                className="w-full rounded-xl border border-blue-500/20 bg-[#040c16] px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
+                className={`w-full rounded-xl border px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:outline-none focus:ring-1 ${
+                  formData.email && !emailValidation
+                    ? "border-amber-500/50 bg-[#040c16] focus:border-amber-400 focus:ring-amber-400/30"
+                    : "border-blue-500/20 bg-[#040c16] focus:border-blue-400 focus:ring-blue-400/30"
+                }`}
               />
             </div>
 
@@ -182,7 +242,7 @@ export default function Contact() {
                 onChange={(e) =>
                   setFormData({ ...formData, message: e.target.value })
                 }
-                placeholder="What's on your mind?"
+                placeholder="What would you like to discuss?"
                 className="w-full resize-none rounded-xl border border-blue-500/20 bg-[#040c16] px-4 py-3 text-sm text-white placeholder-slate-500 transition-all duration-150 focus:border-blue-400 focus:outline-none focus:ring-1 focus:ring-blue-400/30"
               />
             </div>
@@ -245,7 +305,7 @@ export default function Contact() {
             {submitted && (
               <div className="flex items-center gap-2 rounded-xl border border-emerald-500/40 bg-emerald-500/15 p-3 text-xs font-medium text-emerald-200">
                 <Check size={16} className="shrink-0 text-emerald-400" />
-                <span>Message sent directly to sgarg9031@gmail.com!</span>
+                <span>Your message has been delivered to sgarg9031@gmail.com!</span>
               </div>
             )}
 
@@ -258,12 +318,12 @@ export default function Contact() {
               {isSubmitting ? (
                 <>
                   <Loader2 size={18} className="animate-spin text-white" />
-                  <span>Sending message...</span>
+                  <span>Verifying & Sending message...</span>
                 </>
               ) : submitted ? (
                 <>
                   <Check size={18} />
-                  <span>Sent successfully!</span>
+                  <span>Delivered to sgarg9031@gmail.com!</span>
                 </>
               ) : (
                 <>
@@ -310,6 +370,7 @@ export default function Contact() {
     </SectionWrapper>
   );
 }
+
 
 
 

@@ -91,7 +91,8 @@ export default function Navbar() {
 
           <a
             href="/Resume.pdf"
-            download="Sushant_Garg_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="ml-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-4 py-2 text-xs font-bold text-white transition-all duration-200 hover:brightness-110 hover:scale-105 shadow-md shadow-emerald-500/20"
           >
             Resume
@@ -143,7 +144,8 @@ export default function Navbar() {
 
               <a
                 href="/Resume.pdf"
-                download="Sushant_Garg_Resume.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
                 onClick={() => setIsOpen(false)}
                 className="mt-2 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-500 to-blue-600 px-5 py-2.5 text-sm font-bold text-white text-center shadow-md shadow-emerald-500/20"
               >
